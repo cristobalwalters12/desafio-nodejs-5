@@ -5,6 +5,7 @@ const { PORT } = require("../config/config");
 const activityLogger = require("../middleware/loggerMiddleware");
 const errorHandler = require("../middleware/errorHandler");
 const joyasRouter = require("../routes/joyas.router");
+const { notFoundHandler } = require("../middleware/notFoundHandler");
 const app = express();
 
 app.use(activityLogger);
@@ -12,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/joyas", joyasRouter);
+app.all("*", notFoundHandler);
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {
