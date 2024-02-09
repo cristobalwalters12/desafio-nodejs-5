@@ -5,25 +5,22 @@ const getJoyasFromDB = async ({
   page = 1,
   order_by = "id_ASC",
 }) => {
-  const limitsInt = parseInt(limits, 10);
-  const offsetInt = (page - 1) * limitsInt;
+  const offset = (page - 1) * limits;
   const orderBy = order_by.replace("_", " ");
-  try {
-    const { rows } = await pool.query(
-      `SELECT * FROM inventario ORDER BY ${orderBy} LIMIT $1 OFFSET $2`,
-      [limitsInt, offsetInt]
-    );
-    const totalJoyas = rows.length;
-    let stockTotal = rows.reduce((total, joya) => total + joya.stock, 0);
-    const results = rows.map(({ nombre: name, id }) => ({
-      name,
-      href: `/joyas/${id}`,
-    }));
-    return { "total joyas": totalJoyas, "stock total": stockTotal, results };
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+
+  const { rows } = await pool.query(
+    `SELECT * FROM inventario ORDER BY ${orderBy} LIMIT $1 OFFSET $2`,
+    [limits, offset]
+  );
+
+  const totalJoyas = rows.length;
+  let stockTotal = rows.reduce((total, joya) => total + joya.stock, 0);
+  const results = rows.map(({ nombre: name, id }) => ({
+    name,
+    href: `/joyas/${id}`,
+  }));
+
+  return { totalJoyas, stockTotal, results };
 };
 
 const getJoyasFiltered = async ({
