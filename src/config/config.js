@@ -11,6 +11,4 @@ const DB_SETTINGS = {
 
 const PORT = process.env.PORT || 5000;
 
-console.log(process.env.PORT);
-
 module.exports = { DB_SETTINGS, PORT };
