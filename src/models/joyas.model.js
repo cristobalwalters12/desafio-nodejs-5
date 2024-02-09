@@ -1,6 +1,6 @@
 const { pool } = require("../database/connection");
 
-const getJoyasFromDB = async ({
+const getByPageAndLimit = async ({
   limits = 10,
   page = 1,
   order_by = "id_ASC",
@@ -23,7 +23,7 @@ const getJoyasFromDB = async ({
   return { totalJoyas, stockTotal, results };
 };
 
-const getJoyasFiltered = async (filters) => {
+const getByFilters = async (filters) => {
   let params = [];
   let query = `SELECT * FROM inventario WHERE 1 = 1`;
 
@@ -46,4 +46,4 @@ const processFilter = (filter) => {
   return [column, symbol];
 };
 
-module.exports = { getJoyasFromDB, getJoyasFiltered };
+module.exports = { getByPageAndLimit, getByFilters };

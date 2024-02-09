@@ -5,9 +5,5 @@ const { pageValidator, filtersValidator } = require("../DTO/joyas.dto");
 const router = Router();
 
 router.get("/", pageValidator, joyasController.getJoyas);
-router.get(
-  "/filtros",
-  filtersValidator,
-  joyasController.getJoyasFilteredController
-);
+router.get("/filtros", filtersValidator, joyasController.getFilteredJoyas);
 module.exports = router;
