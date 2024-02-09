@@ -1,20 +1,21 @@
 {
   "name": "desafio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Solución al desafío grupal Tienda de Joyas del programa FullStack con JavaScript de la Academia Desafío Latam",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Cristóbal Walters, Ayxa Chaverra",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "joi": "^17.12.1",
+    "morgan": "^1.10.0",
     "nodemon": "^3.0.3",
     "pg": "^8.11.3",
     "postgres": "^3.4.3",

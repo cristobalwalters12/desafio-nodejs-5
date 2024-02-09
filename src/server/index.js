@@ -1,14 +1,22 @@
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 require("dotenv").config();
-const { PORT } = require("../config/config");
+
 const activityLogger = require("../middleware/loggerMiddleware");
 const errorHandler = require("../middleware/errorHandler");
+const notFoundHandler = require("../middleware/notFoundHandler");
 const joyasRouter = require("../routes/joyas.router");
-const { notFoundHandler } = require("../middleware/notFoundHandler");
+const { PORT } = require("../config/config");
+
 const app = express();
 
-app.use(activityLogger);
+if (process.env.NODE_ENV === "production") {
+  app.use(activityLogger);
+} else {
+  app.use(morgan("common"));
+}
+
 app.use(cors());
 app.use(express.json());
 

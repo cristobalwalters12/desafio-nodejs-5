@@ -4,4 +4,4 @@ const notFoundHandler = (req, res, next) => {
   next(error);
 };
 
-export { notFoundHandler };
+module.exports = notFoundHandler;
