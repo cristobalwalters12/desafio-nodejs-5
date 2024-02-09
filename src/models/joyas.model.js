@@ -23,36 +23,27 @@ const getJoyasFromDB = async ({
   return { totalJoyas, stockTotal, results };
 };
 
-const getJoyasFiltered = async ({
-  precio_min,
-  precio_max,
-  categoria,
-  metal,
-}) => {
+const getJoyasFiltered = async (filters) => {
   let params = [];
   let query = `SELECT * FROM inventario WHERE 1 = 1`;
 
-  if (precio_min) {
-    query += ` AND precio >= $` + (params.length + 1);
-    params.push(precio_min);
+  for (let filter in filters) {
+    params.push(filters[filter]);
+    const [column, symbol] = processFilter(filter);
+    query += ` AND ${column} ${symbol} $${params.length}`;
   }
-  if (precio_max) {
-    query += ` AND precio <= $` + (params.length + 1);
-    params.push(precio_max);
-  }
-  if (categoria) {
-    query += ` AND categoria = $` + (params.length + 1);
-    params.push(categoria);
-  }
-  if (metal) {
-    query += ` AND metal = $` + (params.length + 1);
-    params.push(metal);
-  }
-  try {
-    const response = await pool.query(query, params);
-    return response.rows;
-  } catch (error) {
-    throw error;
-  }
+
+  const { rows } = await pool.query(query, params);
+  return rows;
 };
+
+const processFilter = (filter) => {
+  let symbol = "=";
+  const [column, comparator] = filter.split("_");
+  if (comparator) {
+    symbol = comparator === "min" ? ">=" : "<=";
+  }
+  return [column, symbol];
+};
+
 module.exports = { getJoyasFromDB, getJoyasFiltered };
