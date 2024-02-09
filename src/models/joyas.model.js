@@ -1,4 +1,4 @@
-const { pool } = require("../config/config");
+const { pool } = require("../database/connection");
 
 const getJoyasFromDB = async ({
   limits = 10,
